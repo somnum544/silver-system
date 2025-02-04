@@ -1,3 +1,5 @@
+// ahoj frank
+
 #include <stdio.h>
 #include <time.h>
 #include <conio.h> // For kbhit() and getch()
