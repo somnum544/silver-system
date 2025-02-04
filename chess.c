@@ -61,9 +61,9 @@ char** make_move(char** board, char *move) {
     const char squares[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
     
     int column_from = move[0] - 'A';
-    int row_from = move[1] - '1';
+    int row_from = 7 -  (move[1] - '1');
     int column_to = move[2] - 'A';
-    int row_to = move[3] - '1';
+    int row_to = 7 - (move[3] - '1');
 
     board[row_to][column_to] = board[row_from][column_from];
     board[row_from][column_from] = '_';
@@ -86,8 +86,11 @@ void print_board(char **board) {
         for (int j = 0; j < SIZE; j++){
             printf("%c ", board[i][j]);
         }
+        printf("  | %d", SIZE - i);
         printf("\n");
     }
+    printf("________________\n");
+    printf("A B C D E F G H\n");
 }
 
 char** place_pieces(char** board, const char black_pieces[], const char white_pieces[]) {
