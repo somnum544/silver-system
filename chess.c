@@ -131,7 +131,7 @@ char** place_pieces(char** board, const char black_pieces[], const char white_pi
 
     // printing BLANK chars
     for(int i = 2; i<6; i++) {
-        for(int j = 0; j<SIZE; j++){
+        for(int j = 0; j<SIZE; j++) {
             board[i][j] = '_';
         }
     }
