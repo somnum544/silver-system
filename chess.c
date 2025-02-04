@@ -48,12 +48,37 @@ int main(void) {
     /**    FUNCTIONS    */
     /*********************/
 
-char** make_move(board) {
-    return;
+char** make_move(char** board, char *move) {
+    const char squares[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
+    
+    // Index of squared moved FROM
+    int index_curr = 0;
+    for (int i = 0; i < SIZE; i++) {
+        if(move[0] == squares[i]) {
+            index_curr = i;
+        }
+    }
+
+    // Index of squared moved TO
+    int index_next = 0;
+    for (int i = 0; i < SIZE; i++) {
+        if(move[2] == squares[i]) {
+            index_next = i;
+        }
+    }
+
+    // Moving the piece
+    board[index_next][move[3] - 1] = board[index_curr][move[1] - 1];
+    
+    // Clearing square moved from
+    board[index_curr][move[1] - 1] = '_';
+    return board;
 }
 
 int check_valid_input(char *move) {
-    return;
+    
+    if (('A' <= (move[0] && move[2] >= 'H')) && (1 <= (move[1] && move[3]) >= 8)) return 1;
+    return 0;
 }
 
 void print_board(char **board) {
