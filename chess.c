@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
-#define GREEN "\e[0;32m"
-#define RED "\e[0;31m"
+#define MAG "\e[0;35m"  // color for black pieces
+#define YEL "\e[0;33m"  // color for white pieces
+#define RST "\e[0m"  // default color (reset color)
 #define SIZE 8
 
 // TODO: make move, check valid move, 
@@ -20,8 +22,9 @@ void print_board(char **board);
     /*********************/
 
 int main(void) {
-    const char black_pieces[] = {'r','n','b','q','k','r','n','b'}; //{'♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'};
-    const char white_pieces[] ={'R','N','B','Q','K','R','N','B'}; //{'♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖'};
+    // black pieces will be displayed in terminal as upper letters, but with changed color
+    const char black_pieces[] = {'r','n','b','q','k','r','n','b'};  // {'♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'};
+    const char white_pieces[] = {'R','N','B','Q','K','R','N','B'};  // {'♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖'};
     
     char** board = create_board();  
     place_pieces(board, black_pieces, white_pieces);
@@ -31,17 +34,23 @@ int main(void) {
 
     // Main loop
     while (1) {
+        
         // Stores the move from the input
         char move[5];
+        printf("Your move: ");
         scanf("%s", move);
+        printf("\n");
+
         // Checking valid input
         if (!check_valid_input(move)) {
-            printf("Invalid move format");
+            printf("Invalid move format!\n");
             continue;
         }
+
         // Moving the piece
         make_move(board, move);
         print_board(board);
+        printf("\n\n");
     }
 
     // Free memory after use
@@ -84,13 +93,26 @@ void print_board(char **board) {
 
     for (int i = 0; i < SIZE; i++){
         for (int j = 0; j < SIZE; j++){
-            printf("%c ", board[i][j]);
+            
+            // if-segment, for color recognition
+            if (islower(board[i][j]) && board[i][j] != '_') {  // is a black piece
+                printf("%s%c%s ", MAG, toupper(board[i][j]), RST);
+            } 
+            
+            else if (isupper(board[i][j]) && board[i][j] != '_') {  // is a white piece
+                printf("%s%c%s ", YEL, board[i][j], RST);
+            } 
+            
+            else {  // is an underscore character
+                printf("%c ", board[i][j]);
+            }
+            
         }
-        printf("  | %d", SIZE - i);
+        printf("  | %d", SIZE - i);  // chessboard row number (right side)
         printf("\n");
     }
     printf("________________\n");
-    printf("A B C D E F G H\n");
+    printf("A B C D E F G H\n");  // chessboard colon letters (bottom side)
 }
 
 char** place_pieces(char** board, const char black_pieces[], const char white_pieces[]) {
