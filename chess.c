@@ -1,24 +1,24 @@
-
 #include <stdio.h>
 #include <stdlib.h>
-
 
 #define GREEN "\e[0;32m"
 #define RED "\e[0;31m"
 #define SIZE 8
 
+// TODO: make move, check valid move, 
 
 char** create_board();
 char** place_pieces(char** board, const char black_pieces[], const char white_pieces[]);
 char** make_move(board);
 int check_valid_input(char *move);
-
-//TODO make move, check valid move, 
-
+void print_board(char **board);
 
 
-int main(void){
-    
+    /*********************/
+    /**      MAIN       */
+    /*********************/
+
+int main(void) {
     const char black_pieces[] = {'♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'};
     const char white_pieces[] = {'♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖'};
     
@@ -28,15 +28,10 @@ int main(void){
     // Print the board
     print_board(board);
 
-    while (1){
-    
+    // Main loop
+    while (1) {
         char move[5];
         scanf("%s", move);
-        
-        //check_correct_input
-        //check_valid_move
-        //make_move(move);
-        //print_board(board);
 
     }
 
@@ -49,18 +44,19 @@ int main(void){
     return 0;
 }
 
+    /*********************/
+    /**    FUNCTIONS    */
+    /*********************/
 
-
-
-
-
-
-char** make_move(board){}
-int check_valid_input(char *move){
-    
+char** make_move(board) {
+    return;
 }
 
-void print_board(char **board){
+int check_valid_input(char *move) {
+    return;
+}
+
+void print_board(char **board) {
 
     for (int i = 0; i < SIZE; i++){
         for (int j = 0; j < SIZE; j++){
@@ -70,21 +66,22 @@ void print_board(char **board){
     }
 }
 
-char** place_pieces(char** board, const char black_pieces[], const char white_pieces[]){
+char** place_pieces(char** board, const char black_pieces[], const char white_pieces[]) {
     
-    // Place black pieces
-    for(int i = 0; i < SIZE; i++){
+    // Place BLACK pieces
+    for(int i = 0; i < SIZE; i++) {
         board[0][i] = black_pieces[i];
         board[1][i] = '♟';
     }
     
-    // Place white pieces
-    for(int i = 0; i < SIZE; i++){
+    // Place WHITE pieces
+    for(int i = 0; i < SIZE; i++) {
         board[7][i] = white_pieces[i];
         board[6][i] = '♙';
     }
 
-    for(int i = 2; i<6; i++){
+    // printing BLANK chars
+    for(int i = 2; i<6; i++) {
         for(int j = 0; j<SIZE; j++){
             board[i][j] = '_';
         }
@@ -92,7 +89,7 @@ char** place_pieces(char** board, const char black_pieces[], const char white_pi
     return board;
 }
 
-char** create_board(){
+char** create_board() {
     char** board = malloc(SIZE * sizeof(int*));  // Allocate space for the rows
     for (int i = 0; i < SIZE; i++){
         board[i] = malloc(SIZE * sizeof(int));  // Allocate space for columns
