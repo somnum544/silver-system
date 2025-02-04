@@ -1,3 +1,5 @@
+// ahojky :PP
+// BALLS
 #include <stdio.h>
 #include <stdlib.h>
 #define SIZE 8
