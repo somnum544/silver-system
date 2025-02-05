@@ -15,7 +15,7 @@ char** place_pieces(char** board, const char black_pieces[], const char white_pi
 char** make_move(char **board, char *move);
 int check_valid_input(char *move);
 void print_board(char **board);
-
+void convert_to_upper(char* input, int input_len);
 
     /*********************/
     /**      MAIN       */
@@ -41,14 +41,17 @@ int main(void) {
         scanf("%s", move);
         printf("\n");
         
+        // converting move to upper-case, to avoid case sensitivity
+        convert_to_upper(move, strlen(move));
+
         // Printing help for user
-        if((strcmp(move, "--help")) == 0){
+        if((strcmp(move, "--HELP")) == 0){
             print_help();
             continue;
         }
 
         // Ending the game
-        if((strcmp(move, "exit")) == 0){
+        if((strcmp(move, "EXIT")) == 0){
             printf("Thanks for playing!\n");
             for (int i = 0; i < SIZE; i++) {    // Memory cleanup
                 free(board[i]);
@@ -170,4 +173,12 @@ char** create_board() {
     }
     
     return board;
+}
+
+void convert_to_upper(char* input, int input_len) {
+    for (int i = 0; i < input_len; i++) {
+        if (isalpha(input[i])) {
+            input[i] = toupper(input[i]);
+        }
+    }
 }
