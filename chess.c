@@ -9,7 +9,7 @@
 #define SIZE 8
 
 // TODO: make move, check valid move, 
-
+void print_help();
 char** create_board();
 char** place_pieces(char** board, const char black_pieces[], const char white_pieces[]);
 char** make_move(char **board, char *move);
@@ -36,10 +36,27 @@ int main(void) {
     while (1) {
         
         // Stores the move from the input
-        char move[5];
+        char move[10];
         printf("Your move: ");
         scanf("%s", move);
         printf("\n");
+        
+        // Printing help for user
+        if((strcmp(move, "--help")) == 0){
+            print_help();
+            continue;
+        }
+
+        // Ending the game
+        if((strcmp(move, "exit")) == 0){
+            printf("Thanks for playing!\n");
+            for (int i = 0; i < SIZE; i++) {    // Memory cleanup
+                free(board[i]);
+            }
+            free(board);
+            
+            return 0;
+        }
 
         // Checking valid input
         if (!check_valid_input(move)) {
@@ -65,6 +82,14 @@ int main(void) {
     /*********************/
     /**    FUNCTIONS    */
     /*********************/
+
+void print_help(){
+    printf("Enter moves as [FROM][TO] with no spaces (E2E4)\n");
+    printf("To exit the game type 'exit'\n");
+    printf("To display help menu type '--help\n");
+    printf("Enjoy the game!\n");
+    printf("\n");
+}
 
 char** make_move(char** board, char *move) {
     const char squares[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
