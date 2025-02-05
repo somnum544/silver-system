@@ -26,7 +26,7 @@ int main(void) {
     const char black_pieces[] = {'r','n','b','q','k','r','n','b'};  // {'♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'};
     const char white_pieces[] = {'R','N','B','Q','K','R','N','B'};  // {'♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖'};
     
-    char** board = create_board();  
+    char** board = create_board();
     place_pieces(board, black_pieces, white_pieces);
     
     // Print the board
