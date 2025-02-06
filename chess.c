@@ -8,7 +8,7 @@
 #define RST "\e[0m"  // default color (reset color)
 #define SIZE 8
 
-// TODO: make move, check valid move, 
+// TODO: check if move is legal for certain piece 
 void print_help();
 char** create_board();
 char** place_pieces(char** board, const char black_pieces[], const char white_pieces[]);
@@ -16,6 +16,7 @@ char** make_move(char **board, char *move);
 int check_valid_input(char *move);
 void print_board(char **board);
 void convert_to_upper(char* input, int input_len);
+void check_piece_move_valid(char **board, char *move);
 
     /*********************/
     /**      MAIN       */
@@ -40,9 +41,11 @@ int main(void) {
         printf("Your move: ");
         scanf("%s", move);
         printf("\n");
+                
         
         // converting move to upper-case, to avoid case sensitivity
         convert_to_upper(move, strlen(move));
+
 
         // Printing help for user
         if((strcmp(move, "--HELP")) == 0){
@@ -60,7 +63,7 @@ int main(void) {
             
             return 0;
         }
-
+        check_piece_move_valid(board, move);
         // Checking valid input
         if (!check_valid_input(move)) {
             printf("Invalid move format!\n");
@@ -181,4 +184,12 @@ void convert_to_upper(char* input, int input_len) {
             input[i] = toupper(input[i]);
         }
     }
+}
+
+void check_piece_move_valid(char** board, char* move){
+
+    int row = 7 - (move[1] - '1');
+    int col = move[0] - 'A';
+    char piece = board[row][col];
+
 }
