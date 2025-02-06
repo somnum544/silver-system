@@ -16,7 +16,7 @@ char** make_move(char **board, char *move);
 int check_valid_input(char *move);
 void print_board(char **board);
 void convert_to_upper(char* input, int input_len);
-void check_piece_move_valid(char **board, char *move);
+int check_piece_move_valid(char **board, char *move);
 
     /*********************/
     /**      MAIN       */
@@ -48,13 +48,13 @@ int main(void) {
 
 
         // Printing help for user
-        if((strcmp(move, "--HELP")) == 0){
+        if((strcmp(move, "--HELP")) == 0) {
             print_help();
             continue;
         }
 
         // Ending the game
-        if((strcmp(move, "EXIT")) == 0){
+        if((strcmp(move, "EXIT")) == 0) {
             printf("Thanks for playing!\n");
             for (int i = 0; i < SIZE; i++) {    // Memory cleanup
                 free(board[i]);
@@ -63,10 +63,16 @@ int main(void) {
             
             return 0;
         }
-        check_piece_move_valid(board, move);
+        
         // Checking valid input
         if (!check_valid_input(move)) {
             printf("Invalid move format!\n");
+            continue;
+        }
+
+        // Checking if a move is valid for a piece
+        if (!check_piece_move_valid(board, move)) {
+            printf("Given move is not legal for this piece.\n");
             continue;
         }
 
@@ -186,10 +192,45 @@ void convert_to_upper(char* input, int input_len) {
     }
 }
 
-void check_piece_move_valid(char** board, char* move){
+int check_piece_move_valid(char** board, char* move){
 
-    int row = 7 - (move[1] - '1');
-    int col = move[0] - 'A';
-    char piece = board[row][col];
+    int column_from = move[0] - 'A';
+    int row_from = 7 -  (move[1] - '1');
+    int column_to = move[2] - 'A';
+    int row_to = 7 - (move[3] - '1');
+    char piece = board[row_from][column_from];
 
+    // Checking WHITE pawn moves
+    if(piece == 'P') {
+        // Basic pawn move
+        if (column_to == column_from && row_to == row_from - 1 && board[row_to][column_to] == '_') {
+            return 1;
+        }
+        // Move by 2 from starting position
+        if (column_to == column_from && row_from == 6 && row_to == 4 && board[5][column_to] == '_' && board[4][column_to] == '_') {
+                return 1;
+        }
+        // Capture diagonal
+        if ((column_to == column_from + 1 || column_to == column_from - 1) && row_to == row_from - 1 && islower(board[row_to][column_to])) {
+            return 1;
+        }
+    }
+    // Checking BLACK pawn moves
+    if(piece == 'p') {
+    
+        // Basic pawn move 
+        if (column_to == column_from && row_to == row_from + 1 && board[row_to][column_to] == '_') {
+            return 1;
+        }
+        // Move by 2 from starting position
+        if (column_to == column_from && row_from == 1 && row_to == 3 && board[2][column_from] == '_' && board[3][column_from] == '_') {
+            return 1;
+        }
+        // Capture diagonal
+        if ((column_to == column_from + 1 || column_to == column_from - 1) && row_to == row_from + 1 && board[row_to][column_to] != '_') {
+            return 1;
+        }
+    }
+
+    return 0;
 }
